@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>add task</title>
+</head>
+<body>
+<h1>add task</h1>
+
+<form th:action="@{/tasks/add}" th:object="${task}" method="post">
+    <label for="title">title:</label>
+    <input type="text" id="title" th:field="*{title}" required/>
+    <br>
+
+    <label for="description">description:</label>
+    <textarea id="description" th:field="*{description}" required></textarea>
+    <br>
+
+    <label for="dueDate">due date:</label>
+    <input type="datetime-local" id="dueDate" th:field="*{dueDate}" />
+    <br>
+
+    <label for="priority">priority:</label>
+    <select id="priority" th:field="*{priority}">
+        <option value="1">low</option>
+        <option value="2">medium</option>
+        <option value="3">high</option>
+    </select>
+    <br>
+
+    <label for="category">category:</label>
+    <select id="category" th:field="*{category.id}">
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+    </select>
+    <br>
+
+    <label for="status">status:</label>
+    <select id="status" th:field="*{status}">
+        <option value="PENDING" th:selected="${task.status == 'PENDING'}">pending</option>
+        <option value="IN_PROGRESS" th:selected="${task.status == 'IN_PROGRESS'}">in progress</option>
+        <option value="COMPLETED" th:selected="${task.status == 'COMPLETED'}">completed</option>
+    </select>
+    <br>
+
+    <button type="submit">add task</button>
+</form>
+
+</body>
+</html>

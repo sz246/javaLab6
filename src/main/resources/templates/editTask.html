@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>edit task</title>
+</head>
+<body>
+<h1>edit task</h1>
+
+<form th:action="@{/tasks/edit-task/{id}(id=${task.id})}" method="post">
+    <div class="form-group">
+        <label for="title">title</label>
+        <input type="text" class="form-control" id="title" name="title" th:value="${task.title}" required>
+    </div>
+    <div class="form-group">
+        <label for="description">description</label>
+        <textarea class="form-control" id="description" name="description" th:value="${task.description}"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="dueDate">due date</label>
+        <input type="datetime-local" class="form-control" id="dueDate" name="dueDate" th:value="${task.dueDate}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="status">status:</label>
+        <select id="status" name="status" class="form-control">
+            <option value="PENDING" th:selected="${task.status == 'PENDING'}">pending</option>
+            <option value="IN_PROGRESS" th:selected="${task.status == 'IN_PROGRESS'}">in progress</option>
+            <option value="COMPLETED" th:selected="${task.status == 'COMPLETED'}">completed</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">save changes</button>
+</form>
+
+</body>
+</html>

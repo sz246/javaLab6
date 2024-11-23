@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>home page</title>
+</head>
+<body>
+<h1>tasks</h1>
+<a href="/tasks/add" class="btn btn-primary">add new task</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>title</th>
+        <th>description</th>
+        <th>due date</th>
+        <th>status</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+        <td th:text="${task.title}">task title</td>
+        <td th:text="${task.description}">task description</td>
+        <td th:text="${task.dueDate}">2024-11-18</td>
+        <td th:text="${task.status}">pending</td>
+        <td>
+            <a th:href="@{/tasks/edit-task/{id}(id=${task.id})}" class="btn btn-primary">edit</a> |
+            <a th:href="@{/tasks/delete-task/{id}(id=${task.id})}" class="btn btn-danger">delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<form action="http://localhost:8080/login" method="get">
+    <button type="submit">logout</button>
+</form>
+
+<form action="#" th:action="@{/tasks}" method="get">
+
+    <input type="text" name="search" th:value="${search}" placeholder="search by title">
+
+    <select name="status">
+        <option value="" th:selected="${status == ''}">all statuses</option>
+        <option value="OPEN" th:selected="${status == 'OPEN'}">open</option>
+        <option value="IN_PROGRESS" th:selected="${status == 'IN_PROGRESS'}">in progress</option>
+        <option value="COMPLETED" th:selected="${status == 'COMPLETED'}">completed</option>
+    </select>
+
+    <button type="submit">filter</button>
+</form>
+
+<div>
+    <span>page: </span>
+    <a th:href="@{/tasks(search=${search}, status=${status}, page=${tasks.number - 1}, size=${tasks.size})}"
+       th:if="${tasks.hasPrevious()}">previous</a>
+
+    <span th:text="${tasks.number + 1}"></span>
+
+    <a th:href="@{/tasks(search=${search}, status=${status}, page=${tasks.number + 1}, size=${tasks.size})}"
+       th:if="${tasks.hasNext()}">next</a>
+</div>
+</body>
+</html>
